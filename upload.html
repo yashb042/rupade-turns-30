@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fcf6ed">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Our scrapbook editor · Rupade’s birthday</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./upload.css">
+  <script type="module" src="./upload.js"></script>
+</head>
+<body>
+  <div class="announcement">YOUR MEMORIES BELONG HERE <span aria-hidden="true">♡</span></div>
+  <header class="site-header wrap"><a class="brand" href="./"><img src="./assets/favicon.svg" alt="" width="36" height="36"><span>you, me &amp; <em>always.</em></span></a><a class="button secondary" href="./#memories">Back to the scrapbook ↗</a></header>
+  <main class="upload-wrap">
+    <section class="upload-intro"><div><p class="eyebrow">MAKE ROOM FOR THE REAL MEMORIES</p><h1>Little moments,<br><em>forever kept.</em></h1><p>Pick a photo. Add its year. We’ll put it in the scrapbook.<br>One at a time, or a whole folder of your favorite days.</p></div><div class="upload-cat"><img src="./assets/cat.svg" alt="Our two cats, one black and white and one white with light brown markings"><span class="handwritten">Our little companions ♡</span></div></section>
+    <nav class="manage-nav" aria-label="Scrapbook editor sections"><a href="#photos">Photos &amp; years</a><a href="#questions">Questions &amp; answers</a></nav>
+    <section id="photos" aria-label="Photos and years"><form id="upload-form" novalidate>
+      <fieldset id="upload-controls" disabled>
+        <legend class="sr-only">Choose photos and their years</legend>
+        <div class="drop-zone" id="drop-zone"><span class="upload-icon" aria-hidden="true">↥</span><h2>A little piece of our story.</h2><p>Drop photos here, or choose them from your device.</p><div class="choose-buttons"><label class="button primary file-button">Choose photos<input id="photo-files" type="file" accept="image/jpeg,image/png,image/webp" multiple></label><label class="button secondary file-button">Choose a folder<input id="photo-folder" type="file" accept="image/jpeg,image/png,image/webp" webkitdirectory multiple></label></div><p class="upload-hint">JPG, PNG, or WebP · Up to 30 photos · 25 MB per image</p></div>
+        <div class="batch-toolbar"><label for="batch-year">A year for this batch <span>(you can change each one below)</span></label><div><input type="number" id="batch-year" min="1900" step="1" placeholder="e.g. 2024" inputmode="numeric"><button type="button" class="button secondary" id="apply-year">Apply to all</button></div></div>
+        <div class="queue-heading"><h2>Your little moments <span id="queue-count">0</span></h2><p id="slot-count">Loading your scrapbook…</p></div>
+        <p id="empty-queue" class="empty-queue">Your photos will appear here, with a place for the year.</p><div id="upload-queue"></div>
+      </fieldset>
+      <div class="upload-status" id="upload-status" role="status" aria-live="polite">Opening the scrapbook…</div>
+      <div id="connection-help" class="connection-help" hidden><p>Uploads use the birthday server on your computer. Keep it running with <code>npm start</code>, then try again. If your browser asks for local network access, allow it for this upload page.</p><a href="http://localhost:3030/upload.html" class="text-button">Open the upload page on this computer ↗</a></div>
+      <div class="upload-actions"><div><button class="button primary" id="upload-button" type="submit" disabled>Upload to the website <span aria-hidden="true">↗</span></button><button class="button secondary" id="retry-publish" type="button" hidden>Finish publishing ↗</button></div><p>Uploads replace the sample photos first.<br>Your photo and year will appear on the public birthday site.</p></div>
+    </form>
+    <section class="upload-success" id="upload-success" hidden><span aria-hidden="true">♡</span><h2>Another memory, <em>kept.</em></h2><p id="success-message"></p><a class="button primary" href="./#memories">See it in the scrapbook ↗</a><a class="text-button" href="https://yashb042.github.io/rupade-turns-30/#memories" target="_blank" rel="noopener">Open the public gallery</a></section>
+    </section><section id="questions" class="questions-manager" aria-labelledby="questions-title"><p class="eyebrow">IN YOUR OWN WORDS</p><h2 id="questions-title">Questions about <em>us.</em></h2><p class="manager-description">Write the questions and answers that belong to your story. Only your questions will appear in the birthday quiz. Add up to 10.</p><form id="questions-form" novalidate><fieldset id="question-controls" disabled><legend class="sr-only">Personal quiz questions and answers</legend><div id="personal-questions"></div><button type="button" class="button secondary" id="add-personal-question">Add a question +</button></fieldset><p id="questions-status" class="upload-status" role="status"></p><button type="submit" class="button primary" id="save-questions" disabled>Save questions to the website ↗</button><button type="button" class="button secondary" id="retry-questions" hidden>Finish publishing ↗</button></form></section>
+    <section class="existing-section"><div class="queue-heading"><h2>Already in the scrapbook</h2><p>A lifetime of memories.</p></div><div id="existing-photos" class="existing-grid"></div></section>
+  </main>
+  <footer class="wrap site-footer"><a class="brand" href="./"><img src="./assets/favicon.svg" alt="" width="28" height="28"><span>you, me &amp; <em>always.</em></span></a><p>A photo, a year, a little forever. ♡</p></footer>
+</body>
+</html>
