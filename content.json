@@ -3,7 +3,15 @@
   "wife": "Rupade",
   "husband": "Yash",
   "letter": "If I could give you one thing for your birthday, it would be the chance to see yourself the way I see you. You’d know just how loved you are. Here’s to every beautiful, messy, wonderful chapter still ahead of us.",
-  "questions": [],
+  "questions": [
+    {
+      "question": "What is billu beta's name",
+      "answers": [
+        "Bonsi Binnu Billiya Kutti"
+      ],
+      "challenge": ""
+    }
+  ],
   "photos": [
     {
       "src": "./assets/photo-01.jpg",
