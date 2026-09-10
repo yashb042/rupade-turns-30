@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { createReasonBag, validateContent, validateQuestions, safeImageSource, quizScore, isCorrectAnswer, applyPhotoEntries, validPhotoYear, siteStorageKey, upgradeContent } from '../logic.js';
+import { createReasonBag, validateContent, validateQuestions, validateMultipleChoiceQuestions, safeImageSource, quizScore, isCorrectAnswer, applyPhotoEntries, validPhotoYear, siteStorageKey, upgradeContent } from '../logic.js';
 const content = JSON.parse(await readFile(new URL('../content.json', import.meta.url)));
 const reasons = JSON.parse(await readFile(new URL('../reasons.json', import.meta.url)));
 const questions = [
@@ -9,9 +9,9 @@ const questions = [
   { question: 'Our favorite cafe?', answers: ['Mum’s Cafe'] },
 ];
 
-test('The gift waits for personal questions and has 30 photos and 200 distinct reasons', () => {
+test('The gift has valid personal questions, 30 photos, and 200 distinct reasons', () => {
   assert.equal(validateContent(content), content);
-  assert.deepEqual(content.questions, []);
+  assert.ok(content.questions.length <= 10);
   assert.equal(content.photos.length, 30);
   assert.equal(reasons.length, 200);
   assert.equal(new Set(reasons).size, 200);
@@ -81,5 +81,25 @@ test('Every bundled gallery image exists', async () => {
   for (const photo of content.photos) {
     const bytes = await readFile(new URL('../' + photo.src, import.meta.url));
     assert.ok(bytes.length > 1000, photo.src); assert.equal(bytes[0], 0xff); assert.equal(bytes[1], 0xd8);
+  }
+});
+
+test('Multiple-choice quizzes require four distinct choices and one selected answer', () => {
+  const question = { question: 'Where did we first meet?', options: ['Delhi', 'Mumbai', 'Pune', 'Jaipur'], answer: 2, challenge: 'Share a memory.' };
+  assert.deepEqual(validateMultipleChoiceQuestions([]), []);
+  assert.deepEqual(validateMultipleChoiceQuestions([question]), [question]);
+  for (const answer of [null, undefined, -1, 4, '2', true]) {
+    assert.throws(() => validateMultipleChoiceQuestions([{ ...question, answer }]), /correct answer/);
+  }
+  for (const options of [['Delhi', 'Mumbai'], ['Delhi', 'Mumbai', '', 'Jaipur'], ['Delhi', 'Mumbai', ' delhi ', 'Jaipur']]) {
+    assert.throws(() => validateMultipleChoiceQuestions([{ ...question, options }]), /four distinct choices/);
+  }
+  assert.throws(() => validateMultipleChoiceQuestions(questions), /four choices/);
+  for (let answer = 0; answer < 4; answer++) {
+    const q = { ...question, answer };
+    assert.equal(quizScore([q], [answer]), 1);
+    assert.equal(quizScore([q], [(answer + 1) % 4]), 0);
+    assert.equal(quizScore([q], []), 0);
+    assert.equal(quizScore([q], [String(answer)]), 0);
   }
 });

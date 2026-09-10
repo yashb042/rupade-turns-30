@@ -3,7 +3,7 @@ import { readFile, writeFile, mkdir, rename } from 'node:fs/promises';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import path from 'node:path';
-import { applyPhotoEntries, validateContent, validateQuestions } from './logic.js';
+import { applyPhotoEntries, validateContent, validateMultipleChoiceQuestions } from './logic.js';
 
 const run = promisify(execFile);
 const remote = 'https://github.com/yashb042/rupade-turns-30.git';
@@ -110,7 +110,7 @@ export function createUploadAPI({ root, publisher = createGitPublisher(root) }) 
         if (payload.revision !== current.revision) throw fail('The scrapbook changed in another window. Reload this page before uploading so the latest photos are preserved.', 409);
         const kind = pathname === '/api/questions' ? 'questions' : 'photos';
         let updated;
-        try { updated = kind === 'questions' ? validateContent({ ...structuredClone(current.content), questions: validateQuestions(payload.questions), version: 3 }) : applyPhotoEntries(current.content, payload.entries); }
+        try { updated = kind === 'questions' ? validateContent({ ...structuredClone(current.content), questions: validateMultipleChoiceQuestions(payload.questions), version: 3 }) : applyPhotoEntries(current.content, payload.entries); }
         catch (error) { throw fail(error.message); }
         await publisher.preflight();
         const files = [];

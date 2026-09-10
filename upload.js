@@ -1,4 +1,4 @@
-import { applyPhotoEntries, safeImageSource, validPhotoYear, validateContent, validateQuestions, upgradeContent } from './logic.js';
+import { applyPhotoEntries, safeImageSource, validPhotoYear, validateContent, validateMultipleChoiceQuestions, upgradeContent } from './logic.js';
 import { resizePhoto } from './photo-tools.js';
 import { previewStorage } from './storage.js';
 
@@ -96,7 +96,7 @@ async function applyResult(data, entries = []) {
   let previewSaved = true;
   try { await previewStorage(preview); } catch { previewSaved = false; }
   if (data.kind === 'photos') { queue = []; requestID = null; }
-  else { quizRequestID = null; personalQuestions = structuredClone(content.questions); renderQuestions(); }
+  else { quizRequestID = null; personalQuestions = content.questions.map(questionDraft); renderQuestions(); }
   renderQueue(); renderExisting(new Map(entries.map(p => [p.slot, p.src])));
   if (data.published) {
     $('#upload-success').hidden = false;
@@ -109,21 +109,37 @@ async function applyResult(data, entries = []) {
   }
 }
 
+function questionDraft(q = {}) {
+  return {
+    question: q.question || '',
+    options: q.options ? [...q.options] : [q.answers?.[0] || '', '', '', ''],
+    answer: q.options ? q.answer : q.answers?.[0] ? 0 : null,
+    challenge: q.challenge || '',
+  };
+}
 function renderQuestions() {
-  $('#personal-questions').innerHTML = personalQuestions.map((q, i) => `<article class="personal-question"><div class="personal-question-heading"><h3>Question ${i + 1}</h3><button type="button" class="text-button" data-remove-question="${i}">Remove</button></div><label>Question<textarea data-personal-question="${i}" rows="2" maxlength="300" placeholder="e.g. Where did we go on our first holiday?">${esc(q.question || '')}</textarea></label><label>Answer<textarea data-personal-answers="${i}" rows="2" maxlength="2100" placeholder="Write the correct answer">${esc((q.answers || (q.options ? [q.options[q.answer]] : [])).join('\n'))}</textarea><span>More than one accepted answer? Put each on a new line. Capitalization and extra spaces don’t matter.</span></label><label>Wrong-answer challenge <span>(optional)</span><input data-personal-challenge="${i}" maxlength="500" value="${esc(q.challenge || '')}" placeholder="e.g. Share a funny memory of us"></label></article>`).join('');
+  $('#personal-questions').innerHTML = personalQuestions.map((q, i) => `<article class="personal-question"><div class="personal-question-heading"><h3>Question ${i + 1}</h3><button type="button" class="text-button" data-remove-question="${i}">Remove</button></div><label>Question<textarea data-personal-question="${i}" rows="2" maxlength="300" placeholder="e.g. Where did we go on our first holiday?">${esc(q.question)}</textarea></label><fieldset class="question-choices"><legend>Answer choices</legend><p class="choice-help">Fill in all four choices, then mark the correct answer.</p><div class="question-choice-grid">${q.options.map((option, j) => `<div class="question-choice"><label>Choice ${'ABCD'[j]}<input data-personal-option="${i}:${j}" maxlength="200" value="${esc(option)}" placeholder="Write choice ${'ABCD'[j]}" required></label><label class="correct-choice"><input type="radio" name="correct-question-${i}" data-personal-correct="${i}" value="${j}" ${q.answer === j ? 'checked' : ''} aria-label="Mark choice ${'ABCD'[j]} as correct for question ${i + 1}"><span>Correct answer</span></label></div>`).join('')}</div></fieldset><label>Wrong-answer challenge <span>(optional)</span><input data-personal-challenge="${i}" maxlength="500" value="${esc(q.challenge)}" placeholder="e.g. Share a funny memory of us"></label></article>`).join('');
   if (!personalQuestions.length) $('#personal-questions').innerHTML = '<p class="empty-queue">No questions yet. Add your first question below.</p>';
   buttons();
 }
 function captureQuestions() {
-  personalQuestions = personalQuestions.map((_, i) => ({ question: document.querySelector(`[data-personal-question="${i}"]`).value.trim(), answers: document.querySelector(`[data-personal-answers="${i}"]`).value.split('\n').map(s => s.trim()).filter(Boolean), challenge: document.querySelector(`[data-personal-challenge="${i}"]`).value.trim() }));
+  personalQuestions = personalQuestions.map((_, i) => {
+    const correct = document.querySelector(`[data-personal-correct="${i}"]:checked`);
+    return {
+      question: document.querySelector(`[data-personal-question="${i}"]`).value.trim(),
+      options: Array.from({ length: 4 }, (_, j) => document.querySelector(`[data-personal-option="${i}:${j}"]`).value.trim()),
+      answer: correct ? Number(correct.value) : null,
+      challenge: document.querySelector(`[data-personal-challenge="${i}"]`).value.trim(),
+    };
+  });
   return personalQuestions;
 }
-$('#add-personal-question').addEventListener('click', () => { captureQuestions(); if (personalQuestions.length >= 10) return; personalQuestions.push({ question: '', answers: [], challenge: '' }); quizRequestID = null; renderQuestions(); document.querySelector(`[data-personal-question="${personalQuestions.length - 1}"]`).focus(); });
+$('#add-personal-question').addEventListener('click', () => { captureQuestions(); if (personalQuestions.length >= 10) return; personalQuestions.push(questionDraft()); quizRequestID = null; renderQuestions(); document.querySelector(`[data-personal-question="${personalQuestions.length - 1}"]`).focus(); });
 $('#personal-questions').addEventListener('input', () => { quizRequestID = null; });
 $('#personal-questions').addEventListener('click', event => { const button = event.target.closest('[data-remove-question]'); if (!button || busy) return; captureQuestions(); personalQuestions.splice(Number(button.dataset.removeQuestion), 1); quizRequestID = null; renderQuestions(); });
 $('#questions-form').addEventListener('submit', async event => {
   event.preventDefault(); if (busy || pending) return;
-  try { captureQuestions(); validateQuestions(personalQuestions); }
+  try { captureQuestions(); validateMultipleChoiceQuestions(personalQuestions); }
   catch (error) { $('#questions-status').textContent = error.message; $('#questions-status').classList.add('error'); return; }
   captureQueue(); busy = true; buttons();
   $('#questions-status').textContent = 'Saving your questions and publishing the quiz…'; $('#questions-status').classList.remove('error');
@@ -189,8 +205,8 @@ async function init() {
     content = validateContent(upgradeContent(await response.json()));
     try { content = (await connect()).content; }
     catch { $('#connection-help').hidden = false; }
-    personalQuestions = structuredClone(content.questions);
-    if (!personalQuestions.length) personalQuestions.push({ question: '', answers: [], challenge: '' });
+    personalQuestions = content.questions.map(questionDraft);
+    if (!personalQuestions.length) personalQuestions.push(questionDraft());
     renderExisting(); renderQueue(); renderQuestions();
     status(pending ? 'Your previous changes are saved. Use Finish publishing to put them on the public website.' : session ? 'Ready for your memories. Choose photos to begin.' : 'Choose your photos below. Uploading needs the birthday server running on this computer.');
   } catch (error) { status(error.message, true); }

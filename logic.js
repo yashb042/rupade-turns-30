@@ -40,6 +40,14 @@ export function validateQuestions(questions) {
   return questions;
 }
 
+export function validateMultipleChoiceQuestions(questions) {
+  validateQuestions(questions);
+  questions.forEach((q, i) => {
+    if (!Array.isArray(q.options)) throw new Error(`Question ${i + 1} needs four choices and a correct answer. Add the choices in the editor.`);
+  });
+  return questions;
+}
+
 export function siteStorageKey(pathname) {
   return 'rupade-30:' + pathname.replace(/[^/]*$/, '');
 }

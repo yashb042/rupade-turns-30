@@ -23,7 +23,9 @@ If publication fails, the page offers **Finish publishing** to retry the saved c
 
 ## Add your questions and answers
 
-The editor’s **Questions & answers** section accepts up to ten personal questions, their accepted answers, and optional wrong-answer challenges. Put alternate accepted answers on separate lines. Capitalization, extra spaces, curly apostrophes, and trailing sentence punctuation are ignored when checking answers.
+The editor’s **Questions & answers** section accepts up to ten personal multiple-choice questions. Enter four distinct choices (A–D) for each question, select the radio button beside the correct answer, and optionally add a wrong-answer challenge. Players answer by tapping a choice. Blank or repeated choices and missing correct answers cannot be published.
+
+Existing multiple-choice questions keep all their choices and the selected answer when reopened. Older typed-answer questions keep their first accepted answer as Choice A; add three alternatives before saving them in the new format.
 
 **Save questions to the website** replaces the whole quiz with your list and publishes it. There are no starter questions. Until questions are added, the quiz displays an invitation to write them. Remove all questions and save to clear the quiz. A wrong answer shows the correct answer; if you supplied a challenge, players may complete or skip it before continuing.
 

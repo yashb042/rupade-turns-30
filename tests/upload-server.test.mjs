@@ -53,7 +53,7 @@ test('Photo upload saves a real image and its year, publishes once, and accepts 
 });
 test('Questions replace the list, preserve the gallery, and can be cleared', async t => {
   const f = await fixture(t);
-  const questions = [{ question: 'A shared memory?', answers: ['Our answer', 'Another spelling'], challenge: '' }];
+  const questions = [{ question: 'A shared memory?', options: ['A trip', 'A dinner', 'A walk', 'A concert'], answer: 2, challenge: '' }];
   let r = await f.post('/api/questions', { id: id(2), revision: f.initial.revision, questions });
   assert.equal(r.status, 200); assert.equal(f.calls.kind, 'questions');
   assert.deepEqual(r.body.content.questions, questions); assert.deepEqual(r.body.content.photos, base.photos);
@@ -85,8 +85,16 @@ test('Invalid batches, malformed images and stale revisions leave the manifest u
     assert.equal(r.status, i === 4 ? 409 : 400);
     assert.deepEqual(await f.current(), base);
   }
-  const badQuestions = await f.post('/api/questions', { id: id(20), revision: f.initial.revision, questions: [{ question: 'Missing answer' }] });
-  assert.equal(badQuestions.status, 400); assert.deepEqual(await f.current(), base);
+  const invalidQuizzes = [
+    [{ question: 'Missing answer' }],
+    [{ question: 'Typed answer', answers: ['A walk'] }],
+    [{ question: 'No selection', options: ['A', 'B', 'C', 'D'], answer: null }],
+    [{ question: 'Repeated choice', options: ['A', 'B', 'A', 'D'], answer: 0 }],
+  ];
+  for (const [i, questions] of invalidQuizzes.entries()) {
+    const badQuestions = await f.post('/api/questions', { id: id(20 + i), revision: f.initial.revision, questions });
+    assert.equal(badQuestions.status, 400); assert.deepEqual(await f.current(), base);
+  }
   assert.equal(f.calls.commit, 0);
   assert.deepEqual(await readdir(f.root), ['content.json']);
 });
