@@ -1,0 +1,330 @@
+{
+  "version": 1,
+  "wife": "Rupade",
+  "husband": "Yash",
+  "letter": "If I could give you one thing for your birthday, it would be the chance to see yourself the way I see you. You’d know just how loved you are. Here’s to thirty, and to every beautiful, messy, wonderful chapter still ahead of us.",
+  "questions": [
+    {
+      "question": "Where is my favorite place in the whole world?",
+      "options": [
+        "Somewhere with perfect Wi-Fi",
+        "Anywhere I’m with you",
+        "The snack aisle",
+        "Under a very large blanket"
+      ],
+      "answer": 1,
+      "challenge": "Give a dramatic, 15-second acceptance speech for ‘World’s Most Adorable Human’. Thank the cats."
+    },
+    {
+      "question": "If our love story had a mascot, what would it be?",
+      "options": [
+        "A very serious accountant",
+        "A competitive potato",
+        "Two cats sharing a sunbeam",
+        "A confused penguin"
+      ],
+      "answer": 2,
+      "challenge": "Meow ‘Happy Birthday’ like a cat auditioning for a musical. Big feelings. Tiny paws."
+    },
+    {
+      "question": "What’s the secret ingredient in a perfect date?",
+      "options": [
+        "A five-page itinerary",
+        "An extremely expensive menu",
+        "Perfect weather, guaranteed",
+        "You, obviously"
+      ],
+      "answer": 3,
+      "challenge": "Pitch your dream date in the voice of a very fancy restaurant waiter for 20 seconds."
+    },
+    {
+      "question": "What do I hope we never grow out of?",
+      "options": [
+        "Being ridiculously silly together",
+        "Arguing with the GPS",
+        "Buying too many charging cables",
+        "Forgetting why we entered a room"
+      ],
+      "answer": 0,
+      "challenge": "Invent a three-move birthday dance. Name it something outrageously dramatic."
+    },
+    {
+      "question": "Which version of you is my favorite?",
+      "options": [
+        "Only the dressed-up version",
+        "Every wonderfully real version",
+        "Only the well-rested version",
+        "The version holding pizza"
+      ],
+      "answer": 1,
+      "challenge": "Do your best slow-motion movie-star entrance. Bonus points for imaginary wind."
+    },
+    {
+      "question": "What’s our official rule for a rainy day?",
+      "options": [
+        "File a complaint with the clouds",
+        "Conduct a weather investigation",
+        "Make it cozy together",
+        "Reschedule the entire planet"
+      ],
+      "answer": 2,
+      "challenge": "Give a weather report forecasting a 100% chance of birthday fabulousness."
+    },
+    {
+      "question": "What’s the right amount of birthday love?",
+      "options": [
+        "One polite handshake",
+        "Exactly 30 grams",
+        "A reasonable monthly allowance",
+        "An absolutely unreasonable amount"
+      ],
+      "answer": 3,
+      "challenge": "Name three things you love about yourself, in the voice of a sports commentator."
+    },
+    {
+      "question": "What’s the best part of a new adventure?",
+      "options": [
+        "Making another memory with you",
+        "The airport charging sockets",
+        "Winning at suitcase Tetris",
+        "Collecting hotel shampoo"
+      ],
+      "answer": 0,
+      "challenge": "Mime packing a suitcase containing a cake, a cat, and a very large birthday balloon."
+    },
+    {
+      "question": "What do I want more of in our next chapter?",
+      "options": [
+        "Meetings that could be emails",
+        "Belly laughs and little adventures",
+        "Password reset reminders",
+        "Mystery cables in a drawer"
+      ],
+      "answer": 1,
+      "challenge": "Tell the most gloriously terrible cat joke you know. A proud groan counts as applause."
+    },
+    {
+      "question": "Thirty years of you. What’s my birthday wish?",
+      "options": [
+        "That you finally share all the snacks",
+        "That the cats start paying rent",
+        "That you always know how loved you are",
+        "That laundry learns to fold itself"
+      ],
+      "answer": 2,
+      "challenge": "Make a royal birthday proclamation: three extremely silly laws for today. Use your fanciest voice."
+    }
+  ],
+  "photos": [
+    {
+      "src": "./assets/photo-01.jpg",
+      "caption": "Our kind of purr-fect",
+      "category": "cozy",
+      "sourceUrl": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=900&q=85",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-02.jpg",
+      "caption": "Somewhere beautiful",
+      "category": "little-things",
+      "sourceUrl": "https://picsum.photos/id/28/900/1050",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-03.jpg",
+      "caption": "A little pocket of sunshine",
+      "category": "cozy",
+      "sourceUrl": "https://picsum.photos/id/10/900/1050",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-04.jpg",
+      "caption": "The scenic route",
+      "category": "adventures",
+      "sourceUrl": "https://picsum.photos/id/15/900/1050",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-05.jpg",
+      "caption": "Small things, big feelings",
+      "category": "little-things",
+      "sourceUrl": "https://picsum.photos/id/16/900/1050",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-06.jpg",
+      "caption": "The world can wait",
+      "category": "cozy",
+      "sourceUrl": "https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=900&q=85",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-07.jpg",
+      "caption": "A very good day",
+      "category": "adventures",
+      "sourceUrl": "https://picsum.photos/id/18/900/1050",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-08.jpg",
+      "caption": "Soft mornings",
+      "category": "little-things",
+      "sourceUrl": "https://picsum.photos/id/20/900/1050",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-09.jpg",
+      "caption": "A thousand shades of happy",
+      "category": "cozy",
+      "sourceUrl": "https://picsum.photos/id/24/900/1050",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-10.jpg",
+      "caption": "The little things",
+      "category": "adventures",
+      "sourceUrl": "https://picsum.photos/id/29/900/1050",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-11.jpg",
+      "caption": "A view worth sharing",
+      "category": "little-things",
+      "sourceUrl": "https://picsum.photos/id/30/900/1050",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-12.jpg",
+      "caption": "A cozy kind of love",
+      "category": "cozy",
+      "sourceUrl": "https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?auto=format&fit=crop&w=900&q=85",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-13.jpg",
+      "caption": "Always an adventure",
+      "category": "adventures",
+      "sourceUrl": "https://picsum.photos/id/42/900/1050",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-14.jpg",
+      "caption": "Slow down, stay here",
+      "category": "little-things",
+      "sourceUrl": "https://picsum.photos/id/48/900/1050",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-15.jpg",
+      "caption": "A breath of fresh air",
+      "category": "cozy",
+      "sourceUrl": "https://picsum.photos/id/54/900/1050",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-16.jpg",
+      "caption": "No place like us",
+      "category": "adventures",
+      "sourceUrl": "https://picsum.photos/id/60/900/1050",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-17.jpg",
+      "caption": "A moment to keep",
+      "category": "little-things",
+      "sourceUrl": "https://picsum.photos/id/76/900/1050",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-18.jpg",
+      "caption": "A little everyday magic",
+      "category": "cozy",
+      "sourceUrl": "https://picsum.photos/id/82/900/1050",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-19.jpg",
+      "caption": "The best kind of detour",
+      "category": "adventures",
+      "sourceUrl": "https://picsum.photos/id/103/900/1050",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-20.jpg",
+      "caption": "A quiet kind of happy",
+      "category": "little-things",
+      "sourceUrl": "https://picsum.photos/id/106/900/1050",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-21.jpg",
+      "caption": "More days like these",
+      "category": "cozy",
+      "sourceUrl": "https://picsum.photos/id/110/900/1050",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-22.jpg",
+      "caption": "Made for wandering",
+      "category": "adventures",
+      "sourceUrl": "https://picsum.photos/id/119/900/1050",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-23.jpg",
+      "caption": "Just one more photo",
+      "category": "little-things",
+      "sourceUrl": "https://picsum.photos/id/129/900/1050",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-24.jpg",
+      "caption": "Somewhere, together",
+      "category": "cozy",
+      "sourceUrl": "https://picsum.photos/id/139/900/1050",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-25.jpg",
+      "caption": "Finding the wonderful",
+      "category": "adventures",
+      "sourceUrl": "https://picsum.photos/id/152/900/1050",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-26.jpg",
+      "caption": "Golden little memories",
+      "category": "little-things",
+      "sourceUrl": "https://picsum.photos/id/164/900/1050",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-27.jpg",
+      "caption": "Life in full color",
+      "category": "cozy",
+      "sourceUrl": "https://picsum.photos/id/175/900/1050",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-28.jpg",
+      "caption": "A pause for happiness",
+      "category": "adventures",
+      "sourceUrl": "https://picsum.photos/id/188/900/1050",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-29.jpg",
+      "caption": "The next chapter",
+      "category": "little-things",
+      "sourceUrl": "https://picsum.photos/id/200/900/1050",
+      "placeholder": true
+    },
+    {
+      "src": "./assets/photo-30.jpg",
+      "caption": "My favorite, always",
+      "category": "cozy",
+      "sourceUrl": "https://images.unsplash.com/photo-1495360010541-f48722b34f7d?auto=format&fit=crop&w=900&q=85",
+      "placeholder": true
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import { createReasonBag, validateContent, safeImageSource, quizScore } from '../logic.js';
+const content=JSON.parse(await readFile(new URL('../content.json',import.meta.url)));
+const reasons=JSON.parse(await readFile(new URL('../reasons.json',import.meta.url)));
+test('The gift has 10 valid questions, 30 photos, and 200 distinct reasons',()=>{assert.equal(validateContent(content),content);assert.equal(reasons.length,200);assert.equal(new Set(reasons).size,200);});
+test('The reason bag exhausts all 200 reasons with no repeat at cycle boundaries',()=>{const bag=createReasonBag(200);let last;for(let cycle=0;cycle<5;cycle++){const values=Array.from({length:200},()=>bag.next());assert.notEqual(values[0],last);assert.equal(new Set(values).size,200);assert.ok(values.every(n=>n>=0&&n<200));last=values.at(-1);}});
+test('Wrong and missing answers never earn a heart',()=>{assert.equal(quizScore(content.questions,[]),0);assert.equal(quizScore(content.questions,content.questions.map(q=>q.answer)),10);assert.equal(quizScore(content.questions,content.questions.map(q=>(q.answer+1)%4)),0);assert.equal(quizScore(content.questions,[content.questions[0].answer]),1);});
+test('Imported content rejects broken quizzes and unsafe image sources',()=>{const invalid=structuredClone(content);invalid.questions[0].answer=8;assert.throws(()=>validateContent(invalid),/Question 1/);invalid.questions[0].answer=1;invalid.photos[0].src='javascript:alert(1)';assert.throws(()=>validateContent(invalid),/Photo 1/);assert.equal(safeImageSource('data:image/svg+xml,<svg onload=alert(1)>'), '');assert.equal(safeImageSource('https://user:password@example.com/p.jpg'),'');assert.equal(safeImageSource('../../secret.png'),'');assert.equal(safeImageSource('data:image/jpeg;base64,YWJj'), 'data:image/jpeg;base64,YWJj');});
+test('A quiz must have distinct options so the correct choice is unambiguous',()=>{const invalid=structuredClone(content);invalid.questions[0].options[0]=invalid.questions[0].options[1];assert.throws(()=>validateContent(invalid),/distinct/);});
+test('Every bundled gallery image exists',async()=>{for(const photo of content.photos){const bytes=await readFile(new URL('../'+photo.src,import.meta.url));assert.ok(bytes.length>1000,photo.src);assert.equal(bytes[0],0xff,photo.src);assert.equal(bytes[1],0xd8,photo.src);}});

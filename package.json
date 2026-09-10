@@ -1,0 +1,12 @@
+{
+  "name": "rupade-turns-30",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A little corner of the internet for Rupade’s 30th birthday.",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node server.mjs",
+    "test": "node --test tests/*.test.mjs"
+  }
+}
