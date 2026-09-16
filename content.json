@@ -6,222 +6,278 @@
   "questions": [
     {
       "question": "What is billu beta's name",
-      "answers": [
-        "Bonsi Binnu Billiya Kutti"
+      "options": [
+        "Bonsi",
+        "Billu",
+        "Kutti",
+        "All of the above"
+      ],
+      "answer": 3,
+      "challenge": ""
+    },
+    {
+      "question": "Cuddles love whom more",
+      "options": [
+        "Daddy",
+        "Yash",
+        "Man of the house",
+        "All of the above"
+      ],
+      "answer": 3,
+      "challenge": ""
+    },
+    {
+      "question": "How sad were you when there was no decor for your birthday",
+      "options": [
+        "1-10",
+        "20-80",
+        "80-100",
+        "Wanted to breakup"
+      ],
+      "answer": 3,
+      "challenge": ""
+    },
+    {
+      "question": "Bali you will go with whom",
+      "options": [
+        "Yash",
+        "Your husband",
+        "Will not go",
+        "Prefer not to answer"
+      ],
+      "answer": 0,
+      "acceptedAnswers": [
+        0,
+        1
       ],
       "challenge": ""
     }
   ],
   "photos": [
     {
-      "src": "./assets/photo-01.jpg",
-      "caption": "Our kind of purr-fect",
+      "src": "./assets/personal/cat-1.jpg",
+      "caption": "A little box of happiness",
       "category": "cozy",
-      "sourceUrl": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=900&q=85",
-      "placeholder": true
+      "placeholder": false,
+      "year": 2025
     },
     {
-      "src": "./assets/photo-02.jpg",
-      "caption": "Somewhere beautiful",
+      "src": "./assets/personal/cat-2.jpg",
+      "caption": "The coziest corner",
+      "category": "cozy",
+      "placeholder": false,
+      "year": 2026
+    },
+    {
+      "src": "./assets/personal/memory-1e6078f1ee6d.jpg",
+      "caption": "Just us, on the way",
+      "category": "adventures",
+      "placeholder": false,
+      "year": 2025
+    },
+    {
+      "src": "./assets/personal/memory-cc1a1bd9f1c4.jpg",
+      "caption": "A night to celebrate",
       "category": "little-things",
-      "sourceUrl": "https://picsum.photos/id/28/900/1050",
-      "placeholder": true
+      "placeholder": false,
+      "year": 2025
     },
     {
-      "src": "./assets/photo-03.jpg",
-      "caption": "A little pocket of sunshine",
+      "src": "./assets/personal/memory-2d43b8e9edf8.jpg",
+      "caption": "My favorite place to be",
       "category": "cozy",
-      "sourceUrl": "https://picsum.photos/id/10/900/1050",
-      "placeholder": true
+      "placeholder": false,
+      "year": 2025
     },
     {
-      "src": "./assets/photo-04.jpg",
+      "src": "./assets/personal/memory-de6fd3831e9c.jpg",
+      "caption": "Dinner, just us",
+      "category": "little-things",
+      "placeholder": false,
+      "year": 2025
+    },
+    {
+      "src": "./assets/personal/memory-3d72981efe79.jpg",
+      "caption": "A beautiful beginning",
+      "category": "little-things",
+      "placeholder": false,
+      "year": 2025
+    },
+    {
+      "src": "./assets/personal/memory-593c25dbde61.jpg",
+      "caption": "Together, always",
+      "category": "little-things",
+      "placeholder": false,
+      "year": 2025
+    },
+    {
+      "src": "./assets/personal/memory-7fe9ab8fb8c4.jpg",
+      "caption": "Little moments, big smiles",
+      "category": "little-things",
+      "placeholder": false,
+      "year": 2025
+    },
+    {
+      "src": "./assets/personal/memory-5ced9fc8dee4.jpg",
+      "caption": "A day in the sunshine",
+      "category": "adventures",
+      "placeholder": false,
+      "year": 2025
+    },
+    {
+      "src": "./assets/personal/memory-856f891d9ab8.jpg",
+      "caption": "On the way, together",
+      "category": "little-things",
+      "placeholder": false,
+      "year": 2025
+    },
+    {
+      "src": "./assets/personal/memory-16034ed6c14a.jpg",
+      "caption": "One last photo before we go",
+      "category": "little-things",
+      "placeholder": false,
+      "year": 2025
+    },
+    {
+      "src": "./assets/personal/memory-620abd8a29c0.jpg",
+      "caption": "A night full of color",
+      "category": "little-things",
+      "placeholder": false,
+      "year": 2026
+    },
+    {
+      "src": "./assets/personal/memory-b7b98cb803b2.jpg",
+      "caption": "An ordinary day with you",
+      "category": "little-things",
+      "placeholder": false,
+      "year": 2026
+    },
+    {
+      "src": "./assets/personal/memory-5ab253865ce2.jpg",
+      "caption": "Our kind of company",
+      "category": "little-things",
+      "placeholder": false,
+      "year": 2026
+    },
+    {
+      "src": "./assets/personal/memory-11379b86b913.jpg",
+      "caption": "Dressed for a beautiful day",
+      "category": "little-things",
+      "placeholder": false,
+      "year": 2026
+    },
+    {
+      "src": "./assets/personal/memory-b99858dd38df.jpg",
+      "caption": "A little sunshine, a little us",
+      "category": "adventures",
+      "placeholder": false,
+      "year": 2026
+    },
+    {
+      "src": "./assets/personal/memory-63fe76389c8d.jpg",
+      "caption": "A reason to smile",
+      "category": "little-things",
+      "placeholder": false,
+      "year": 2026
+    },
+    {
+      "src": "./assets/personal/memory-2e4eae03cd16.jpg",
+      "caption": "Just one more mirror photo",
+      "category": "little-things",
+      "placeholder": false,
+      "year": 2026
+    },
+    {
+      "src": "./assets/personal/memory-ee9ca269f445.jpg",
+      "caption": "Close to you",
+      "category": "little-things",
+      "placeholder": false,
+      "year": 2026
+    },
+    {
+      "src": "./assets/personal/memory-14eb940a07d0.jpg",
+      "caption": "A view worth sharing",
+      "category": "adventures",
+      "placeholder": false,
+      "year": 2026
+    },
+    {
+      "src": "./assets/personal/memory-4705ffee4dbf.jpg",
+      "caption": "Out on the water",
+      "category": "adventures",
+      "placeholder": false,
+      "year": 2026
+    },
+    {
+      "src": "./assets/personal/memory-73a341069cfe.jpg",
       "caption": "The scenic route",
       "category": "adventures",
-      "sourceUrl": "https://picsum.photos/id/15/900/1050",
-      "placeholder": true
+      "placeholder": false,
+      "year": 2026
     },
     {
-      "src": "./assets/photo-05.jpg",
-      "caption": "Small things, big feelings",
-      "category": "little-things",
-      "sourceUrl": "https://picsum.photos/id/16/900/1050",
-      "placeholder": true
-    },
-    {
-      "src": "./assets/photo-06.jpg",
-      "caption": "The world can wait",
-      "category": "cozy",
-      "sourceUrl": "https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=900&q=85",
-      "placeholder": true
-    },
-    {
-      "src": "./assets/photo-07.jpg",
-      "caption": "A very good day",
+      "src": "./assets/personal/memory-b245343ddc4b.jpg",
+      "caption": "Something sweet, together",
       "category": "adventures",
-      "sourceUrl": "https://picsum.photos/id/18/900/1050",
-      "placeholder": true
+      "placeholder": false,
+      "year": 2026
     },
     {
-      "src": "./assets/photo-08.jpg",
-      "caption": "Soft mornings",
-      "category": "little-things",
-      "sourceUrl": "https://picsum.photos/id/20/900/1050",
-      "placeholder": true
-    },
-    {
-      "src": "./assets/photo-09.jpg",
-      "caption": "A thousand shades of happy",
-      "category": "cozy",
-      "sourceUrl": "https://picsum.photos/id/24/900/1050",
-      "placeholder": true
-    },
-    {
-      "src": "./assets/photo-10.jpg",
-      "caption": "The little things",
+      "src": "./assets/personal/memory-db130f3aaff0.jpg",
+      "caption": "An evening to remember",
       "category": "adventures",
-      "sourceUrl": "https://picsum.photos/id/29/900/1050",
-      "placeholder": true
+      "placeholder": false,
+      "year": 2026
     },
     {
-      "src": "./assets/photo-11.jpg",
-      "caption": "A view worth sharing",
-      "category": "little-things",
-      "sourceUrl": "https://picsum.photos/id/30/900/1050",
-      "placeholder": true
-    },
-    {
-      "src": "./assets/photo-12.jpg",
-      "caption": "A cozy kind of love",
-      "category": "cozy",
-      "sourceUrl": "https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?auto=format&fit=crop&w=900&q=85",
-      "placeholder": true
-    },
-    {
-      "src": "./assets/photo-13.jpg",
-      "caption": "Always an adventure",
+      "src": "./assets/personal/memory-ce9b8ee01434.jpg",
+      "caption": "A little time by the pool",
       "category": "adventures",
-      "sourceUrl": "https://picsum.photos/id/42/900/1050",
-      "placeholder": true
+      "placeholder": false,
+      "year": 2026
     },
     {
-      "src": "./assets/photo-14.jpg",
-      "caption": "Slow down, stay here",
-      "category": "little-things",
-      "sourceUrl": "https://picsum.photos/id/48/900/1050",
-      "placeholder": true
-    },
-    {
-      "src": "./assets/photo-15.jpg",
-      "caption": "A breath of fresh air",
-      "category": "cozy",
-      "sourceUrl": "https://picsum.photos/id/54/900/1050",
-      "placeholder": true
-    },
-    {
-      "src": "./assets/photo-16.jpg",
-      "caption": "No place like us",
+      "src": "./assets/personal/memory-f683f94f3d60.jpg",
+      "caption": "The journey is better together",
       "category": "adventures",
-      "sourceUrl": "https://picsum.photos/id/60/900/1050",
-      "placeholder": true
+      "placeholder": false,
+      "year": 2026
     },
     {
-      "src": "./assets/photo-17.jpg",
-      "caption": "A moment to keep",
-      "category": "little-things",
-      "sourceUrl": "https://picsum.photos/id/76/900/1050",
-      "placeholder": true
-    },
-    {
-      "src": "./assets/photo-18.jpg",
-      "caption": "A little everyday magic",
-      "category": "cozy",
-      "sourceUrl": "https://picsum.photos/id/82/900/1050",
-      "placeholder": true
-    },
-    {
-      "src": "./assets/photo-19.jpg",
-      "caption": "The best kind of detour",
+      "src": "./assets/personal/memory-e6994efb1845.jpg",
+      "caption": "A little walk in the green",
       "category": "adventures",
-      "sourceUrl": "https://picsum.photos/id/103/900/1050",
-      "placeholder": true
+      "placeholder": false,
+      "year": 2026
     },
     {
-      "src": "./assets/photo-20.jpg",
-      "caption": "A quiet kind of happy",
+      "src": "./assets/personal/memory-628cc1520c05.jpg",
+      "caption": "The best part of my day",
       "category": "little-things",
-      "sourceUrl": "https://picsum.photos/id/106/900/1050",
-      "placeholder": true
+      "placeholder": false,
+      "year": 2026
     },
     {
-      "src": "./assets/photo-21.jpg",
-      "caption": "More days like these",
+      "src": "./assets/personal/memory-9b916706c6f6.jpg",
+      "caption": "At home, with you",
       "category": "cozy",
-      "sourceUrl": "https://picsum.photos/id/110/900/1050",
-      "placeholder": true
+      "placeholder": false,
+      "year": 2026
     },
     {
-      "src": "./assets/photo-22.jpg",
-      "caption": "Made for wandering",
-      "category": "adventures",
-      "sourceUrl": "https://picsum.photos/id/119/900/1050",
-      "placeholder": true
+      "src": "./assets/personal/memory-54ef86144905.jpg",
+      "caption": "A quiet little moment",
+      "category": "cozy",
+      "placeholder": false,
+      "year": 2026
     },
     {
-      "src": "./assets/photo-23.jpg",
-      "caption": "Just one more photo",
+      "src": "./assets/personal/memory-d08056d8605a.jpg",
+      "caption": "Another memory to keep",
       "category": "little-things",
-      "sourceUrl": "https://picsum.photos/id/129/900/1050",
-      "placeholder": true
-    },
-    {
-      "src": "./assets/photo-24.jpg",
-      "caption": "Somewhere, together",
-      "category": "cozy",
-      "sourceUrl": "https://picsum.photos/id/139/900/1050",
-      "placeholder": true
-    },
-    {
-      "src": "./assets/photo-25.jpg",
-      "caption": "Finding the wonderful",
-      "category": "adventures",
-      "sourceUrl": "https://picsum.photos/id/152/900/1050",
-      "placeholder": true
-    },
-    {
-      "src": "./assets/photo-26.jpg",
-      "caption": "Golden little memories",
-      "category": "little-things",
-      "sourceUrl": "https://picsum.photos/id/164/900/1050",
-      "placeholder": true
-    },
-    {
-      "src": "./assets/photo-27.jpg",
-      "caption": "Life in full color",
-      "category": "cozy",
-      "sourceUrl": "https://picsum.photos/id/175/900/1050",
-      "placeholder": true
-    },
-    {
-      "src": "./assets/photo-28.jpg",
-      "caption": "A pause for happiness",
-      "category": "adventures",
-      "sourceUrl": "https://picsum.photos/id/188/900/1050",
-      "placeholder": true
-    },
-    {
-      "src": "./assets/photo-29.jpg",
-      "caption": "The next chapter",
-      "category": "little-things",
-      "sourceUrl": "https://picsum.photos/id/200/900/1050",
-      "placeholder": true
-    },
-    {
-      "src": "./assets/photo-30.jpg",
-      "caption": "My favorite, always",
-      "category": "cozy",
-      "sourceUrl": "https://images.unsplash.com/photo-1495360010541-f48722b34f7d?auto=format&fit=crop&w=900&q=85",
-      "placeholder": true
+      "placeholder": false,
+      "year": 2026
     }
-  ]
+  ],
+  "updatedAt": "2026-09-16T05:06:54.897Z"
 }

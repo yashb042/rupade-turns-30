@@ -129,6 +129,7 @@ export function createUploadAPI({ root, publisher = createGitPublisher(root) }) 
         if ((await snapshot()).revision !== current.revision) throw fail('The scrapbook changed during the upload. Reload and try again.', 409);
         await mkdir(path.join(root, 'assets'), { recursive: true });
         for (const file of files) await writeFile(path.join(root, file.relative), file.bytes);
+        updated.updatedAt = new Date().toISOString();
         await atomicWrite(manifest, JSON.stringify(updated, null, 2) + '\n');
         state = { id: payload.id, kind, status: 'saved', commit: null, paths: ['content.json', ...new Set(files.map(f => f.relative))], count: kind === 'photos' ? payload.entries.length : payload.questions.length };
         await writeState(state);

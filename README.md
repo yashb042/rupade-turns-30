@@ -23,7 +23,7 @@ If publication fails, the page offers **Finish publishing** to retry the saved c
 
 ## Add your questions and answers
 
-The editor’s **Questions & answers** section accepts up to ten personal multiple-choice questions. Enter four distinct choices (A–D) for each question, select the radio button beside the correct answer, and optionally add a wrong-answer challenge. Players answer by tapping a choice. Blank or repeated choices and missing correct answers cannot be published.
+The editor’s **Questions & answers** section accepts up to ten personal multiple-choice questions. Enter four distinct choices (A–D) for each question, mark each choice that should count as correct, and optionally add a wrong-answer challenge. Players answer by tapping one choice. More than one choice can be accepted when two labels mean the same thing. Blank or repeated choices and missing correct answers cannot be published.
 
 Existing multiple-choice questions keep all their choices and the selected answer when reopened. Older typed-answer questions keep their first accepted answer as Choice A; add three alternatives before saving them in the new format.
 
@@ -36,9 +36,9 @@ Existing multiple-choice questions keep all their choices and the selected answe
 - The gallery includes categories, a folding scrapbook, and a keyboard-accessible lightbox. Arrow keys move through photos; Escape closes the view.
 - Birthday confetti respects reduced-motion preferences.
 
-**Personalize this gift** in the footer edits names and the birthday letter. Its **Save browser preview** affects only the current browser. To publish those details, export `content.json`, replace the repository file, and commit/push it. The upload page publishes photos and questions directly. Clearing browser site data removes previews and favorite notes.
+**Personalize this gift** in the footer edits names and the birthday letter. Its **Save browser preview** affects only the current browser. To publish those details, export `content.json`, replace the repository file, and commit/push it. The upload page publishes photos and questions directly. Clearing browser site data removes previews and favorite notes. A newer published content update supersedes old browser previews so they cannot hide newly added photos or questions.
 
-You can also edit `content.json` directly. Keep 30 gallery entries and use local `./assets/name.jpg` paths, HTTPS image URLs, or editor-generated image data URLs. Set `placeholder` to `false` for personal photos. Edit `reasons.json` to change the notes, keeping exactly 200 distinct, nonempty entries. Older browser previews migrate away from the original starter questions and age-specific text.
+You can also edit `content.json` directly. Keep between 1 and 200 gallery entries and use local `./assets/name.jpg` paths, HTTPS image URLs, or editor-generated image data URLs. Set `placeholder` to `false` for personal photos. Edit `reasons.json` to change the notes, keeping exactly 200 distinct, nonempty entries. Older browser previews migrate away from the original starter questions and age-specific text.
 
 The GitHub Pages site and its repository are public. Uploaded photos, years, and quiz answers are included in the published content.
 
@@ -48,6 +48,6 @@ Repository: `yashb042/rupade-turns-30`. Pages is configured to **Deploy from a b
 
 ## Credits
 
-Temporary photos are from [Lorem Picsum](https://picsum.photos/) and [Unsplash](https://unsplash.com/), bundled in `assets/`. Each original download URL is retained as `sourceUrl` in `content.json`. These are sample photos to replace with your own memories.
+Temporary photos are from [Lorem Picsum](https://picsum.photos/) and [Unsplash](https://unsplash.com/), bundled in `assets/`. The active gallery now contains 32 personal photos supplied by Yash, with the two cat photos first. All are oriented for display, resized for the web, and stripped of embedded camera metadata. The original sample assets are unused.
 
 Fonts: DM Sans, DM Serif Display, and Kalam via Google Fonts, with system fallbacks. Cat illustrations are original SVG artwork.

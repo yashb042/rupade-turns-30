@@ -9,10 +9,10 @@ const questions = [
   { question: 'Our favorite cafe?', answers: ['Mum’s Cafe'] },
 ];
 
-test('The gift has valid personal questions, 30 photos, and 200 distinct reasons', () => {
+test('The gift has valid personal questions, a gallery, and 200 distinct reasons', () => {
   assert.equal(validateContent(content), content);
   assert.ok(content.questions.length <= 10);
-  assert.equal(content.photos.length, 30);
+  assert.ok(content.photos.length > 0 && content.photos.length <= 200);
   assert.equal(reasons.length, 200);
   assert.equal(new Set(reasons).size, 200);
   assert.ok(!/thirty|30th|30 years/i.test(content.letter + reasons.join(' ')));
@@ -52,7 +52,7 @@ test('Older browser previews lose generated starters and age copy, preserving cu
   assert.deepEqual(upgradeContent(updated), updated);
 });
 test('Photos save a year into selected slots without changing other photos or questions', () => {
-  const source = { ...content, questions };
+  const source = { ...content, photos: content.photos.slice(0, 30), questions };
   const updated = applyPhotoEntries(source, [{ slot: 4, src: './assets/test.jpg', year: 2020, caption: ' Our holiday ' }]);
   assert.equal(updated.photos[4].year, 2020); assert.equal(updated.photos[4].caption, 'Our holiday');
   assert.equal(updated.photos[4].placeholder, false);
@@ -65,6 +65,21 @@ test('Photos save a year into selected slots without changing other photos or qu
     assert.equal(validPhotoYear(year), false);
     assert.throws(() => applyPhotoEntries(source, [{ ...entry, year }]), /year/);
   }
+});
+test('A gallery can keep all 32 photos and update its final position', () => {
+  const photos = Array.from({ length: 32 }, (_, i) => ({ ...content.photos[i % content.photos.length] }));
+  const source = { ...content, photos, questions };
+  const entry = { slot: 31, src: './assets/test.jpg', year: 2020, caption: 'Last memory' };
+  const updated = applyPhotoEntries(source, [entry]);
+  assert.equal(updated.photos.length, 32);
+  assert.equal(updated.photos[31].caption, 'Last memory');
+  assert.deepEqual(updated.photos.slice(0, 31), source.photos.slice(0, 31));
+  assert.deepEqual(updated.questions, source.questions);
+  for (const slot of [32, 33]) assert.throws(() => applyPhotoEntries(source, [{ ...entry, slot }]), /position/);
+  const batch = Array.from({ length: 31 }, (_, slot) => ({ ...entry, slot }));
+  assert.throws(() => applyPhotoEntries(source, batch), /30 photos in a batch/);
+  assert.throws(() => validateContent({ ...source, photos: [] }), /between 1 and 200/);
+  assert.throws(() => validateContent({ ...source, photos: Array(201).fill(photos[0]) }), /between 1 and 200/);
 });
 test('Main page and upload page share a preview under the same project path', () => {
   assert.equal(siteStorageKey('/rupade-turns-30/'), siteStorageKey('/rupade-turns-30/upload.html'));

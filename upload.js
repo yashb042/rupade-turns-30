@@ -1,4 +1,4 @@
-import { applyPhotoEntries, safeImageSource, validPhotoYear, validateContent, validateMultipleChoiceQuestions, upgradeContent } from './logic.js';
+import { MAX_UPLOAD_BATCH, applyPhotoEntries, safeImageSource, validPhotoYear, validateContent, validateMultipleChoiceQuestions, upgradeContent } from './logic.js';
 import { resizePhoto } from './photo-tools.js';
 import { previewStorage } from './storage.js';
 
@@ -31,7 +31,7 @@ function buttons() {
 function fallback(img) { img.addEventListener('error', () => { img.src = './assets/cat.svg'; }, { once: true }); }
 function renderExisting(previews = new Map()) {
   const real = content.photos.filter(photo => !photo.placeholder).length;
-  $('#slot-count').textContent = `${real} personal photos · ${30 - real} sample photos to replace`;
+  $('#slot-count').textContent = `${real} personal photos · ${content.photos.length - real} sample photos to replace`;
   $('#existing-photos').innerHTML = content.photos.map((p, i) => `<figure class="existing-photo"><img src="${esc(previews.get(i) || safeImageSource(p.src))}" alt="${esc(p.caption)}" loading="lazy"><span class="photo-tag">${String(i + 1).padStart(2, '0')} · ${p.placeholder ? 'Sample' : (p.year || 'Memory')}</span><figcaption>${p.year ? `<span class="year-label">${p.year}</span> · ` : ''}${esc(p.caption)}</figcaption></figure>`).join('');
   document.querySelectorAll('.existing-photo img').forEach(fallback);
 }
@@ -49,7 +49,7 @@ async function chooseFiles(files, fromFolder = false) {
   captureQueue();
   const chosen = fromFolder ? files.filter(f => ['image/jpeg', 'image/png', 'image/webp'].includes(f.type)).sort((a, b) => (a.webkitRelativePath || a.name).localeCompare(b.webkitRelativePath || b.name, undefined, { numeric: true })) : files;
   if (!chosen.length) { if (files.length) status('This folder has no JPG, PNG, or WebP photos. Export HEIC photos as JPG first.', true); return; }
-  if (chosen.length + queue.length > 30) { status('Choose up to 30 photos in a batch. Remove some selected photos before adding more.', true); return; }
+  if (chosen.length + queue.length > MAX_UPLOAD_BATCH) { status(`Choose up to ${MAX_UPLOAD_BATCH} photos in a batch. Remove some selected photos before adding more.`, true); return; }
   busy = true; buttons(); $('#upload-success').hidden = true;
   try {
     const prepared = [];
@@ -114,24 +114,26 @@ function questionDraft(q = {}) {
     question: q.question || '',
     options: q.options ? [...q.options] : [q.answers?.[0] || '', '', '', ''],
     answer: q.options ? q.answer : q.answers?.[0] ? 0 : null,
+    acceptedAnswers: q.options ? (q.acceptedAnswers || (Number.isInteger(q.answer) ? [q.answer] : [])) : q.answers?.[0] ? [0] : [],
     challenge: q.challenge || '',
   };
 }
 function renderQuestions() {
-  $('#personal-questions').innerHTML = personalQuestions.map((q, i) => `<article class="personal-question"><div class="personal-question-heading"><h3>Question ${i + 1}</h3><button type="button" class="text-button" data-remove-question="${i}">Remove</button></div><label>Question<textarea data-personal-question="${i}" rows="2" maxlength="300" placeholder="e.g. Where did we go on our first holiday?">${esc(q.question)}</textarea></label><fieldset class="question-choices"><legend>Answer choices</legend><p class="choice-help">Fill in all four choices, then mark the correct answer.</p><div class="question-choice-grid">${q.options.map((option, j) => `<div class="question-choice"><label>Choice ${'ABCD'[j]}<input data-personal-option="${i}:${j}" maxlength="200" value="${esc(option)}" placeholder="Write choice ${'ABCD'[j]}" required></label><label class="correct-choice"><input type="radio" name="correct-question-${i}" data-personal-correct="${i}" value="${j}" ${q.answer === j ? 'checked' : ''} aria-label="Mark choice ${'ABCD'[j]} as correct for question ${i + 1}"><span>Correct answer</span></label></div>`).join('')}</div></fieldset><label>Wrong-answer challenge <span>(optional)</span><input data-personal-challenge="${i}" maxlength="500" value="${esc(q.challenge)}" placeholder="e.g. Share a funny memory of us"></label></article>`).join('');
+  $('#personal-questions').innerHTML = personalQuestions.map((q, i) => `<article class="personal-question"><div class="personal-question-heading"><h3>Question ${i + 1}</h3><button type="button" class="text-button" data-remove-question="${i}">Remove</button></div><label>Question<textarea data-personal-question="${i}" rows="2" maxlength="300" placeholder="e.g. Where did we go on our first holiday?">${esc(q.question)}</textarea></label><fieldset class="question-choices"><legend>Answer choices</legend><p class="choice-help">Fill in all four choices, then mark each answer that should count as correct.</p><div class="question-choice-grid">${q.options.map((option, j) => `<div class="question-choice"><label>Choice ${'ABCD'[j]}<input data-personal-option="${i}:${j}" maxlength="200" value="${esc(option)}" placeholder="Write choice ${'ABCD'[j]}" required></label><label class="correct-choice"><input type="checkbox" name="correct-question-${i}" data-personal-correct="${i}" value="${j}" ${q.acceptedAnswers.includes(j) ? 'checked' : ''} aria-label="Mark choice ${'ABCD'[j]} as correct for question ${i + 1}"><span>Correct answer</span></label></div>`).join('')}</div></fieldset><label>Wrong-answer challenge <span>(optional)</span><input data-personal-challenge="${i}" maxlength="500" value="${esc(q.challenge)}" placeholder="e.g. Share a funny memory of us"></label></article>`).join('');
   if (!personalQuestions.length) $('#personal-questions').innerHTML = '<p class="empty-queue">No questions yet. Add your first question below.</p>';
   buttons();
 }
 function captureQuestions() {
   personalQuestions = personalQuestions.map((_, i) => {
-    const correct = document.querySelector(`[data-personal-correct="${i}"]:checked`);
+    const correct = [...document.querySelectorAll(`[data-personal-correct="${i}"]:checked`)].map(input => Number(input.value));
     return {
       question: document.querySelector(`[data-personal-question="${i}"]`).value.trim(),
       options: Array.from({ length: 4 }, (_, j) => document.querySelector(`[data-personal-option="${i}:${j}"]`).value.trim()),
-      answer: correct ? Number(correct.value) : null,
+      answer: correct[0] ?? null,
+      ...(correct.length > 1 ? { acceptedAnswers: correct } : {}),
       challenge: document.querySelector(`[data-personal-challenge="${i}"]`).value.trim(),
     };
-  });
+  }).map(questionDraft);
   return personalQuestions;
 }
 $('#add-personal-question').addEventListener('click', () => { captureQuestions(); if (personalQuestions.length >= 10) return; personalQuestions.push(questionDraft()); quizRequestID = null; renderQuestions(); document.querySelector(`[data-personal-question="${personalQuestions.length - 1}"]`).focus(); });

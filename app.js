@@ -1,4 +1,5 @@
-import { CATEGORIES, safeImageSource, validateContent, createReasonBag, quizScore, upgradeContent, isCorrectAnswer } from './logic.js';
+import { previewIsCurrent } from './content-version.js';
+import { CATEGORIES, MAX_UPLOAD_BATCH, safeImageSource, validateContent, createReasonBag, quizScore, upgradeContent, isCorrectAnswer } from './logic.js';
 import { storageKey, previewStorage } from './storage.js';
 import { resizePhoto } from './photo-tools.js';
 
@@ -24,8 +25,9 @@ function renderDetails() {
   $('#birthday-letter').textContent = content.letter;
   $('#hero-photo-one').src = safeImageSource(content.photos[0].src);
   $('#hero-photo-one').alt = content.photos[0].caption;
-  $('#hero-photo-two').src = safeImageSource(content.photos[1].src);
-  $('#hero-photo-two').alt = content.photos[1].caption;
+  const secondPhoto = content.photos[1] || content.photos[0];
+  $('#hero-photo-two').src = safeImageSource(secondPhoto.src);
+  $('#hero-photo-two').alt = secondPhoto.caption;
   $('.placeholder-note').hidden = !content.photos.some(p => p.placeholder);
 }
 
@@ -61,7 +63,7 @@ function answerQuestion(choice) {
   if (answers[questionIndex] !== undefined) return;
   answers[questionIndex] = choice;
   const q = content.questions[questionIndex], correct = isCorrectAnswer(q, choice);
-  $$('.answer').forEach((button,i) => { button.disabled = true; if (i === q.answer) button.classList.add('correct'); if (i === choice && !correct) button.classList.add('wrong'); });
+  $$('.answer').forEach((button,i) => { button.disabled = true; if (isCorrectAnswer(q, i)) button.classList.add('correct'); if (i === choice && !correct) button.classList.add('wrong'); });
   $$('#text-answer-form input, #text-answer-form button').forEach(el => el.disabled = true);
   $('#quiz-score').textContent = `${quizScore(content.questions, answers)} correct`;
   $('#progress-fill').style.width = `${(questionIndex + 1) / content.questions.length * 100}%`;
@@ -72,7 +74,7 @@ function answerQuestion(choice) {
     $('#next-question').disabled = false;
   } else {
     const challenge = q.challenge?.trim();
-    $('#quiz-feedback').innerHTML = `<div class="feedback"><strong>Not quite.</strong><p>The answer: ${esc(q.options ? q.options[q.answer] : q.answers[0])}</p>${challenge ? `<p>${esc(challenge)}</p><div class="challenge-actions"><button class="button primary" id="challenge-done">Done ✓</button><button class="text-button" id="challenge-skip">Skip challenge</button></div>` : ''}</div>`;
+    $('#quiz-feedback').innerHTML = `<div class="feedback"><strong>Not quite.</strong><p>The answer: ${esc(q.options ? (q.acceptedAnswers || [q.answer]).map(i => q.options[i]).join(' or ') : q.answers[0])}</p>${challenge ? `<p>${esc(challenge)}</p><div class="challenge-actions"><button class="button primary" id="challenge-done">Done ✓</button><button class="text-button" id="challenge-skip">Skip challenge</button></div>` : ''}</div>`;
     challengeResolved = !challenge;
     $('#next-question').disabled = !!challenge;
     $('#quiz-hint').textContent = challenge ? 'Complete or skip the challenge to continue.' : 'Continue when you’re ready.';
@@ -89,6 +91,7 @@ function finishQuiz() {
 }
 
 function renderGallery() {
+  $('[data-filter="all"] span').textContent = content.photos.length;
   const years = [...new Set(content.photos.map(p => p.year).filter(Number.isInteger))].sort((a, b) => b - a);
   if (filterYear !== 'all' && !years.includes(Number(filterYear))) filterYear = 'all';
   $('#year-filter').innerHTML = '<option value="all">All years</option>' + years.map(year => `<option value="${year}">${year}</option>`).join('');
@@ -110,7 +113,7 @@ function renderLightbox() {
   $('#lightbox-image').src = safeImageSource(photo.src);
   $('#lightbox-image').alt = photo.caption;
   $('#lightbox-caption').textContent = photo.caption;
-  $('#lightbox-number').textContent = `${pad(photo.originalIndex+1)} / 30${photo.year ? ' · ' + photo.year : ''} · ${photo.placeholder ? 'A temporary internet photo' : 'A little moment to keep'}`;
+  $('#lightbox-number').textContent = `${pad(photo.originalIndex+1)} / ${content.photos.length}${photo.year ? ' · ' + photo.year : ''} · ${photo.placeholder ? 'A temporary internet photo' : 'A little moment to keep'}`;
 }
 function movePhoto(direction) { lightboxIndex = (lightboxIndex + direction + activePhotos.length) % activePhotos.length; renderLightbox(); }
 
@@ -173,11 +176,12 @@ function editorError(error) { $('#editor-status').textContent = error.message ||
 function setPhotoBusy(busy) { photoBusy = busy; $$('.editor-actions button, #bulk-photos, [data-upload], #import-content').forEach(el => el.disabled = busy); }
 async function uploadPhotos(files, startIndex = 0) {
   if (!files.length || photoBusy) return;
-  if (files.length > 30) return editorError(new Error('Choose up to 30 photos at a time.'));
+  if (files.length > MAX_UPLOAD_BATCH) return editorError(new Error(`Choose up to ${MAX_UPLOAD_BATCH} photos at a time.`));
+  if (files.length > draft.photos.length - startIndex) return editorError(new Error(`Only ${draft.photos.length - startIndex} gallery positions remain from this photo.`));
   captureDraft(); setPhotoBusy(true);
   try {
     const updated = [];
-    for (let i=0;i<files.length && startIndex+i<30;i++) { $('#editor-status').textContent = `Preparing photo ${i+1} of ${files.length}…`; updated.push(await resizePhoto(files[i])); }
+    for (let i=0;i<files.length;i++) { $('#editor-status').textContent = `Preparing photo ${i+1} of ${files.length}…`; updated.push(await resizePhoto(files[i])); }
     updated.forEach((src,i) => { draft.photos[startIndex+i].src = src; draft.photos[startIndex+i].placeholder = false; delete draft.photos[startIndex+i].sourceUrl; });
     photoEditor(); $('#editor-status').textContent = `${updated.length} photo${updated.length===1?'':'s'} ready. Save your preview or export to keep them.`;
   } catch (error) { editorError(error); }
@@ -225,13 +229,13 @@ function attachEvents() {
 
 async function init() {
   try {
-    const responses=await Promise.all([fetch('./content.json'),fetch('./reasons.json')]);
+    const responses=await Promise.all([fetch('./content.json', { cache: 'no-store' }),fetch('./reasons.json')]);
     if (responses.some(response=>!response.ok)) throw new Error('Your birthday content could not load. Please refresh to try again.');
     const [data,notes]=await Promise.all(responses.map(response=>response.json()));
     content=validateContent(upgradeContent(data));
     if (!Array.isArray(notes)||notes.length!==200||notes.some(n=>typeof n!=='string'||!n.trim())||new Set(notes).size!==200) throw new Error('The love notes need a little attention. Please check reasons.json.');
     reasons=notes;
-    try { const preview=await previewStorage(); if(preview) content=validateContent(upgradeContent(preview)); } catch { /* A blocked or obsolete local preview does not prevent the published site loading. */ }
+    try { const preview=await previewStorage(); if(previewIsCurrent(content, preview)) content=validateContent(upgradeContent(preview)); } catch { /* A blocked or obsolete local preview does not prevent the published site loading. */ }
     saved=new Set([...saved].filter(reason=>reasons.includes(reason)));
     bag=createReasonBag(reasons.length); currentReason=bag.next();
     renderDetails(); renderQuestion(); renderGallery(); renderReason(); attachEvents();
@@ -245,7 +249,7 @@ async function refreshPreview() {
   if (!content || $('#editor').open || $('#lightbox').open) return;
   try {
     const preview = await previewStorage();
-    if (!preview) return;
+    if (!previewIsCurrent(content, preview)) return;
     const updated = validateContent(upgradeContent(preview));
     const questionsChanged = JSON.stringify(content.questions) !== JSON.stringify(updated.questions);
     content = updated; renderDetails(); renderGallery();
